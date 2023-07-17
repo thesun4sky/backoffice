@@ -3,13 +3,19 @@ package com.sparta.backoffice.controller;
 import com.sparta.backoffice.dto.AuthRequestDto;
 import com.sparta.backoffice.dto.StatusResponseDto;
 import com.sparta.backoffice.jwt.JwtUtil;
+import com.sparta.backoffice.repository.BlackListRepository;
 import com.sparta.backoffice.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,18 +50,18 @@ public class UserController {
     }
 
     /* 로그아웃 미완성 */
-//    @PostMapping("/logout")
-//    public ResponseEntity<StatusResponseDto> logout(HttpServletRequest request) {
-//
-//        // Access Token 검증
-//        if (!jwtUtil.validateToken(jwtUtil.resolveToken(request))) {
-//            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
-//        }
-//
-//        String token = jwtUtil.resolveToken(request);
-//
-//        userService.logout(token);
-//
-//        return ResponseEntity.ok().body(new StatusResponseDto("로그아웃 되었습니다.", HttpStatus.OK.value()));
-//    }
+    @PostMapping("/logout")
+    public ResponseEntity<StatusResponseDto> logout(HttpServletRequest request) {
+
+        String token = jwtUtil.resolveToken(request);
+
+        // Access Token 검증
+        if (!jwtUtil.validateToken(token)) {
+            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
+        }
+
+        userService.logout(token);
+
+        return ResponseEntity.ok().body(new StatusResponseDto("로그아웃 되었습니다.", HttpStatus.OK.value()));
+    }
 }
