@@ -24,8 +24,24 @@ public class User {
     private String username;
 
     @Column(nullable = false)
+    private String nickname;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
+    @Column(nullable = false)
     private String password;
+
 
     @OneToMany(mappedBy = "user")
     private List<Post> postList = new ArrayList<>();
+
+    public User(String username, String nickname, UserRoleEnum role, String password) {
+        this.username = username;
+        this.nickname = nickname;
+        this.role = role;
+        this.password = password;
+    }
+
 }

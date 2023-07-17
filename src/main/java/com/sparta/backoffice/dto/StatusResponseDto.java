@@ -1,8 +1,10 @@
 package com.sparta.backoffice.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class StatusResponseDto {
     private String msg;
     private Integer statusCode;
