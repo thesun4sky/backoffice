@@ -8,7 +8,6 @@ import com.sparta.backoffice.jwt.JwtUtil;
 import com.sparta.backoffice.repository.BlackListRepository;
 import com.sparta.backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +34,8 @@ public class UserService {
         String nickname = requestDto.getNickname();
 
         UserRoleEnum role = UserRoleEnum.USER;
-        if(requestDto.isAdmin()) {
-            if(!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
+        if (requestDto.isAdmin()) {
+            if (!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
                 throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
             }
             role = UserRoleEnum.ADMIN;
