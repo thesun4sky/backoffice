@@ -18,6 +18,10 @@ public class UserDetailsImpl implements UserDetails {
         return user;
     }
 
+    public String getNickname() {
+        return user.getNickname();
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();
