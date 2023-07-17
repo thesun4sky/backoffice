@@ -4,13 +4,15 @@ import com.sparta.backoffice.dto.AuthRequestDto;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.jwt.JwtUtil;
-import com.sparta.backoffice.repository.BlackListRepository;
+//import com.sparta.backoffice.repository.BlackListRepository;
 import com.sparta.backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.Optional;
+import java.util.Queue;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,9 @@ public class UserService {
 
     private final JwtUtil jwtUtil;
 
-    private final BlackListRepository blackListRepository;
+//    private final Queue<String> queue = new LinkedList<>(); // 큐로 비밀번호 담기
+
+//    private final BlackListRepository blackListRepository;
 
     private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
@@ -41,6 +45,7 @@ public class UserService {
         }
 
         String password = passwordEncoder.encode(requestDto.getPassword());
+
 
         Optional<User> checkUsername = userRepository.findByUsername(username);
 

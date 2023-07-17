@@ -3,11 +3,13 @@ package com.sparta.backoffice.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "user")
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private String lastPassword;
 
     public User(String username, String nickname, UserRoleEnum role, String password) {
         this.username = username;
