@@ -50,7 +50,7 @@ public class JwtUtil {
         return null;
     }
 
-    public String createToken(String username, UserRoleEnum role) {
+    public String createToken(String username, Boolean admin) {
         Date date = new Date();
 
         long TOKEN_TIME = 60 * 60 * 1000L;
@@ -58,7 +58,7 @@ public class JwtUtil {
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username)
-                        .claim(AUTHORIZATION_KEY, role)
+                        .claim(AUTHORIZATION_KEY, admin)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
