@@ -34,15 +34,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     /*
-    * 모든 요청을 필터링하고 JWT 의 유효성을 검사하는 메서드
-    */
+     * 모든 요청을 필터링하고 JWT 의 유효성을 검사하는 메서드
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String token = jwtUtil.resolveToken(request);
 
-        if(token != null) {
-            if(!jwtUtil.validateToken(token)){
+        if (token != null) {
+            if (!jwtUtil.validateToken(token)) {
                 StatusResponseDto responseDto = new StatusResponseDto("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST.value());
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.setContentType("application/json; charset=UTF-8");
