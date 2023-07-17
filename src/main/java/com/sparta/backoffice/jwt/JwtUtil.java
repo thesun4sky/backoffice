@@ -1,6 +1,7 @@
 package com.sparta.backoffice.jwt;
 
-import com.sparta.backoffice.entity.UserRoleEnum;
+import com.sparta.backoffice.entity.BlackList;
+import com.sparta.backoffice.repository.BlackListRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -8,12 +9,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.security.Key;
-import java.security.SignatureException;
 import java.util.Base64;
 import java.util.Date;
 
@@ -30,6 +31,9 @@ public class JwtUtil {
     @Value("${jwt.secret.key}")
     private String secretKey;
     private Key key;
+
+    @Autowired
+    private BlackListRepository blackListRepository;
 
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
@@ -92,4 +96,9 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
+    // 블랙리스트에 토큰이 있는지 확인, 존재하면 true 반환
+    public boolean isBlacklist(String token) {
+        BlackList blackList = blackListRepository.findByToken(token).orElse(null);
+        return blackList != null;
+    }
 }
