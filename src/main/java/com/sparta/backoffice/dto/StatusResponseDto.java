@@ -1,7 +1,6 @@
 package com.sparta.backoffice.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter

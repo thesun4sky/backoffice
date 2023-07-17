@@ -18,12 +18,22 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
 
     public void signup(AuthRequestDto requestDto) {
         String username = requestDto.getUsername();
+
         String nickname = requestDto.getNickname();
-        UserRoleEnum role = requestDto.getRole();
+
+        UserRoleEnum role = UserRoleEnum.USER;
+        if(requestDto.isAdmin()) {
+            if(!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
+                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
+            }
+            role = UserRoleEnum.ADMIN;
+        }
+
         String password = passwordEncoder.encode(requestDto.getPassword());
 
         Optional<User> checkUsername = userRepository.findByUsername(username);
