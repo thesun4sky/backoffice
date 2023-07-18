@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +34,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-//    @Column(unique = true)
-//    private String secPassword;
-//
-//    @Column(unique = true)
-//    private String thrPassword;
+
+    @Column
+    private String lastPasswords;
 
 
     @OneToMany(mappedBy = "user")
@@ -51,4 +50,11 @@ public class User {
         this.password = password;
     }
 
+    public void updateLastPassword(String lastPasswords) {
+        this.lastPasswords = lastPasswords;
+    }
+
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }

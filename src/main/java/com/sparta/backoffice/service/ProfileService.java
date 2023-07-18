@@ -80,75 +80,60 @@ public class ProfileService {
 
 
     // 프로필 업데이트
-    public ProfileResponseDto updateProfile(String password, String username, ProfileRequestDto profileRequestDto) {
+    @Transactional
+    public ProfileResponseDto updateProfile(String password, String username, ProfileRequestDto profileRequestDto, User user) {
 
         //회원 존재 확인
-        User user = userRepository.findByUsername(username)
+        User author = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 존재하지 않습니다."));
 
         //비밀번호 확인
-        if (!passwordEncoder.matches(password, user.getPassword()) || !user.getRole().equals(UserRoleEnum.ADMIN)) {
+        if (!(passwordEncoder.matches(password, author.getPassword()) || user.getRole().equals(UserRoleEnum.ADMIN))) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않거나 접근 권한이 없습니다.");
         }
 
-        //새 값 넣기
+        //새 닉네임 값 넣기
+        author.setNickname(profileRequestDto.getNickname());
 
-        user.setNickname(profileRequestDto.getNickname());
-
-        // 저장
-        user = userRepository.save(user);
-
-        return new ProfileResponseDto(user);
-
-
+        return new ProfileResponseDto(author);
     }
 
-    public ProfileResponseDto passwordUpdate(Long id, String password, String newPassword, User user) {
-        //회원 존재 확인
-        userRepository.findByUsername(user.getUsername())
+
+    @Transactional
+    public void passwordUpdate(String username, String password, String newPassword, User user) {
+
+        //사용자 회원 존재 확인
+        User author = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 존재하지 않습니다."));
 
-        //비밀번호 확인
-        if (!passwordEncoder.matches(password, user.getPassword()) || !user.getRole().equals(UserRoleEnum.ADMIN)) {
+        //비밀번호 확인 & 접근 권한
+        if (!(passwordEncoder.matches(password, user.getPassword()) || user.getRole().equals(UserRoleEnum.ADMIN))) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않거나 접근 권한이 없습니다.");
 
         }
 
-        //user의 전비밀번호 받아오기
-//        String lastPassword = user.getLastPassword();
-//        String[] PassStr = lastPassword.split(" ");
+        //username과 같은 이름의 최근 비밀번호를 받아오기
+        String lastPasswords = author.getLastPasswords(); // admin -> authorDB lastpasswords:2%dms /4455, author.get~~
+        lastPasswords = lastPasswords == null ? author.getPassword() : lastPasswords;
 
-        //전에 쓴 비밀번호인지 확인
-//        for (int i = 0; i < PassStr.length; i++) {
-//            if (passwordEncoder.matches(PassStr[i], newPassword)) {
-//                throw new IllegalArgumentException("전에 쓰던 페스워드라서 못씀니다.");
-//            }
-//        }
+        //지난 패스워드들 " " 기준으로 나누기
+        String[] passwordList = lastPasswords.split(" ");
 
-//        if (PassStr.length == 1) {
-//            user.lastPasswordUpdate(PassStr[1] + );
-//        }
-//        //배열에 저장
-//        user.lastPasswordUpdate(String.join(" ", tempStr));
+        for (int i = 0; i < passwordList.length; i++) {
+            if (passwordEncoder.matches(newPassword, passwordList[i])) {
+                throw new IllegalArgumentException("이전에 비밀번호를 사용한 기록이 있습니다.");
+            }
+        }
 
+        author.updatePassword(passwordEncoder.encode(newPassword)); //새로 받아온 비밀번호 인코딩
 
-//        queue.add(password);
-
-        //if문 사용해서 최근 3번안에 사용한 비밀번호인지 확인
-//        for (int i = 0; i < 2; i++) {
-//            if (queue.equals(newPassword)) {
-//                System.out.println("이전에 사용한 비밀번호 입니다.");
-//            } else {
-//                queue.add(newPassword);
-//                if (queue.size() == 3) { // queue사이즈가 꽉 차면
-//                    queue.poll(); // 가장 먼저 들어온 값 버리기
-//                }
-//            }
-//
-//        }
-        return new ProfileResponseDto(); // 추후에 값 바꿀 거임
+        //이전 3개의 비밀번호 배열이 꽉 찼을 때 미뤄내서 값 넣기
+        if (passwordList.length == 3) {
+            author.updateLastPassword(passwordList[1] + " " + passwordList[2] + " " + passwordEncoder.encode(newPassword));
+        } else {//받아온 비밀번호를 " " 기준으로 니눠서 붙여주기
+            author.updateLastPassword((String.join(" ", passwordList) + " " + passwordEncoder.encode(newPassword)).trim());
+        }
     }
-
 
 
 }

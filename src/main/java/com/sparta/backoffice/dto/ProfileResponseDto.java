@@ -12,7 +12,7 @@ public class ProfileResponseDto {
     private String username;
     private String nickname;
 
-    private String msg;
+
 
 
     //회원 정보
