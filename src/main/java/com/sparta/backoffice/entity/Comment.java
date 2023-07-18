@@ -32,9 +32,8 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-
     @ColumnDefault("0")
-    @Column(name = "like_count", nullable = false)
+    @JoinColumn(name = "like_count", nullable = false)
     private Integer commentlikeCount;
 
     public Comment(CommentRequestDto commentRequestDto) {

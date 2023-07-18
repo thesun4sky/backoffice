@@ -1,9 +1,13 @@
 package com.sparta.backoffice.dto;
 
 import com.sparta.backoffice.entity.Comment;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Getter
+@NoArgsConstructor
 public class CommentResponseDto {
 
     private Long id;                   // 댓글 ID
