@@ -30,17 +30,20 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
-    //게시글 전체조회: 제목, 닉네임, 댓글수, 조회수만 List형태로 만들어 return 한다.
+    //게시글 전체조회: 제목, 닉네임, 댓글수, 좋아요수, 조회수만 List형태로 만들어 return 한다.
     public List<PostsResponseDto> getAllPost(String method) {
         List<PostsResponseDto> postsResponseDtoList = new ArrayList<>();
         List<Post> postList;
 
+        // PathVariable로 기준을 정해서 그 기준으로 가져오게끔 했음
         if (method.equals("createAt")) {
             postList = postRepository.findAllByOrderByCreatedAtDesc();
         } else if (method.equals("views")) {
             postList = postRepository.findAllByOrderByViewsDesc();
         } else if (method.equals("likes")) {
             postList = postRepository.findAllByOrderByLikeCountDesc();
+        } else if (method.equals("comment")) {
+            postList = postRepository.findAllByOrderByCommentCountDesc();
         } else {
             throw new IllegalArgumentException("올바른 url이 아닙니다.");
         }
