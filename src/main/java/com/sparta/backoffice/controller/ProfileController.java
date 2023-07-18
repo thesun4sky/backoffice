@@ -40,7 +40,8 @@ public class ProfileController {
                                             HttpServletResponse servletResponse) {
 
         //회원 이름
-        String username = userDetails.getUser().getUsername();
+        String username = profileRequestDto.getUsername();
+
         //회원 비밀번호 받기
         String password = profileRequestDto.getPassword();
         //회원 정보 수정

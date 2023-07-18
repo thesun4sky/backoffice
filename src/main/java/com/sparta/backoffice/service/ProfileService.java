@@ -48,7 +48,7 @@ public class ProfileService {
         }
 
         //새 값 넣기
-        user.setUsername(profileRequestDto.getUsername());
+
         user.setNickname(profileRequestDto.getNickname());
 
         // 저장
@@ -71,15 +71,15 @@ public class ProfileService {
         }
 
         //user의 전비밀번호 받아오기
-        String lastPassword = user.getLastPassword();
-        String[] PassStr = lastPassword.split(" ");
+//        String lastPassword = user.getLastPassword();
+//        String[] PassStr = lastPassword.split(" ");
 
         //전에 쓴 비밀번호인지 확인
-        for (int i = 0; i < PassStr.length; i++) {
-            if (passwordEncoder.matches(PassStr[i], newPassword)) {
-                throw new IllegalArgumentException("전에 쓰던 페스워드라서 못씀니다.");
-            }
-        }
+//        for (int i = 0; i < PassStr.length; i++) {
+//            if (passwordEncoder.matches(PassStr[i], newPassword)) {
+//                throw new IllegalArgumentException("전에 쓰던 페스워드라서 못씀니다.");
+//            }
+//        }
 
 //        if (PassStr.length == 1) {
 //            user.lastPasswordUpdate(PassStr[1] + );
