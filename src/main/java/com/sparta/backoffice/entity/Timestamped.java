@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public abstract class Timestamped {
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(updatable = false)        // 이후에는 값이 수정되지 않음
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
@@ -22,4 +22,5 @@ public abstract class Timestamped {
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime modifiedAt;
+
 }

@@ -42,7 +42,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> postList = new ArrayList<>();
 
-
     public User(String username, String nickname, UserRoleEnum role, String password) {
         this.username = username;
         this.nickname = nickname;

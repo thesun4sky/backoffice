@@ -1,12 +1,14 @@
 package com.sparta.backoffice.service;
 
 import com.sparta.backoffice.dto.AuthRequestDto;
+import com.sparta.backoffice.entity.BlackList;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.jwt.JwtUtil;
 //import com.sparta.backoffice.repository.BlackListRepository;
 import com.sparta.backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,14 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final BlackListRepository blackListRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -33,8 +38,8 @@ public class UserService {
         String nickname = requestDto.getNickname();
 
         UserRoleEnum role = UserRoleEnum.USER;
-        if(requestDto.isAdmin()) {
-            if(!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
+        if (requestDto.isAdmin()) {
+            if (!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
                 throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
             }
             role = UserRoleEnum.ADMIN;
@@ -56,6 +61,9 @@ public class UserService {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
 
+        log.info("로그인 : " + requestDto.getUsername());
+        log.info("로그인 : " + requestDto.getPassword());
+
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("등록된 아이디가 없습니다.")
         );
@@ -65,13 +73,9 @@ public class UserService {
         }
     }
 
-    /* 미완성 */
-//    @Transactional
-//    public void logout(String token) {
-//
-//        // 토큰을 블랙리스트에 추가
-//        BlackList blackList = new BlackList(token);
-//        blackListRepository.save(blackList);
-//    }
-
+    public void logout(String token) {
+        // 토큰을 블랙리스트에 추가
+        BlackList blackList = new BlackList(token);
+        blackListRepository.save(blackList);
+    }
 }
