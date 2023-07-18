@@ -20,4 +20,6 @@ public class ProfileResponseDto {
         this.username = user.getUsername();
         this.nickname = user.getNickname();
     }
+
+
 }

@@ -24,10 +24,6 @@ public class UserService {
 
     private final JwtUtil jwtUtil;
 
-//    private final Queue<String> queue = new LinkedList<>(); // 큐로 비밀번호 담기
-
-//    private final BlackListRepository blackListRepository;
-
     private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
 
