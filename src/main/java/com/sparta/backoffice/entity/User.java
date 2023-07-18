@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -15,10 +18,10 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
-
-    @Column(nullable = false)
     private String nickname;
+
+    @Column(nullable = false, unique = true)
+    private String username;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -27,10 +30,14 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private List<Post> postList = new ArrayList<>();
+
     public User(String username, String nickname, UserRoleEnum role, String password) {
         this.username = username;
         this.nickname = nickname;
         this.role = role;
         this.password = password;
     }
+
 }

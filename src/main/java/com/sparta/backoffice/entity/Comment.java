@@ -1,13 +1,17 @@
 package com.sparta.backoffice.entity;
 
+
 import com.sparta.backoffice.dto.CommentRequestDto;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
 
 @Entity
 @Getter
@@ -43,6 +47,5 @@ public class Comment extends Timestamped{
     public void update(CommentRequestDto commentRequestDto) {
         this.commentcontents = commentRequestDto.getCommentcontents();
     }
-
 
 }

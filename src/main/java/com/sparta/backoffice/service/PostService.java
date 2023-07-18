@@ -62,7 +62,7 @@ public class PostService {
             post.update(requestDto);
             post.setNickname(setAnonymous(requestDto, user));
         } else {
-            throw new IllegalArgumentException("본인이 아니면 삭제할수 없습니다.");
+            throw new IllegalArgumentException("본인이 아니면 수정할수 없습니다.");
         }
 
         return new PostResponseDto(post);
@@ -85,7 +85,7 @@ public class PostService {
                 () -> new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.")
         );
     }
-    // request의 anonymous가 true일 경우 익명 닉에임으로, 아니면 그냥 닉네임을 반환하는 메서드
+    // request의 anonymous가 true일 경우 익명으로, 아니면 그냥 닉네임을 반환하는 메서드
     private String setAnonymous(PostRequestDto requestDto, User user) {
         if (requestDto.isAnonymous()) {   //만약에 익명이 true로 되어있다면 앞에 한자리를 제외하고 *로 처리함
             return user.getNickname().charAt(0) + "*".repeat(user.getNickname().length() - 1);

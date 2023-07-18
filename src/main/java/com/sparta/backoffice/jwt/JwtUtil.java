@@ -1,7 +1,7 @@
 package com.sparta.backoffice.jwt;
 
 import com.sparta.backoffice.entity.BlackList;
-import com.sparta.backoffice.entity.UserRoleEnum;
+
 import com.sparta.backoffice.repository.BlackListRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.security.Key;
-import java.security.SignatureException;
 import java.util.Base64;
 import java.util.Date;
 
@@ -103,4 +102,5 @@ public class JwtUtil {
         BlackList blackList = blackListRepository.findByToken(token).orElse(null);
         return blackList != null;
     }
+
 }

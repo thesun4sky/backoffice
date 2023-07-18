@@ -1,6 +1,7 @@
 package com.sparta.backoffice.entity;
 
 public enum UserRoleEnum {
+
     USER(Authority.USER),
     ADMIN(Authority.ADMIN);
 
