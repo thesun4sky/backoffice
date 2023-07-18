@@ -1,6 +1,7 @@
 package com.sparta.backoffice.service;
 
 import com.sparta.backoffice.dto.AuthRequestDto;
+import com.sparta.backoffice.entity.BlackList;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.jwt.JwtUtil;

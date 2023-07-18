@@ -47,7 +47,6 @@ public class UserController {
         return ResponseEntity.ok().body(new StatusResponseDto("로그인 되었습니다.", HttpStatus.OK.value()));
     }
 
-    /* 로그아웃 미완성 */
     @PostMapping("/logout")
     public ResponseEntity<StatusResponseDto> logout(HttpServletRequest request) {
 
