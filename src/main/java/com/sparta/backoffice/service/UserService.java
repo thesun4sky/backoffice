@@ -8,11 +8,13 @@ import com.sparta.backoffice.jwt.JwtUtil;
 import com.sparta.backoffice.repository.BlackListRepository;
 import com.sparta.backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -55,6 +57,9 @@ public class UserService {
     public void login(AuthRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
+
+        log.info("로그인 : " + requestDto.getUsername());
+        log.info("로그인 : " + requestDto.getPassword());
 
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("등록된 아이디가 없습니다.")

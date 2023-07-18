@@ -57,6 +57,7 @@ public class WebSecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/post/**").permitAll()
+                        .requestMatchers("/").permitAll()
                         .anyRequest().authenticated()
         );
 
@@ -64,4 +65,5 @@ public class WebSecurityConfig {
 
         return http.build();
     }
+
 }

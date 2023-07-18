@@ -1,10 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 페이지</title>
+    <script src="/js/basic.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
 </head>
 <body>
+<div class="login-wrap">
+    <div class="login-html">
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">로그인</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">회원가입</label>
+        <div class="login-form">
+            <div class="sign-in-htm">
+                <div class="group">
+                    <label for="loginusername" class="label">Username</label>
+                    <input id="loginusername" type="text" class="input">
+                </div>
+                <div class="group">
+                    <label for="loginpassword" class="label">Password</label>
+                    <input id="loginpassword" type="password" class="input" data-type="password">
+                </div>
 
+                <div class="group">
+                    <button id="login-submit" onclick="login()">로그인</button>
+                </div>
+                <div class="hr"></div>
+
+<!--                <div class="group">-->
+<!--                    <button class="buttons" value="카카오 로그인">카카오 로그인</button>-->
+<!--                </div>-->
+
+            </div>
+            <div class="sign-up-htm">
+                <div class="group">
+                    <label for="signupusername" class="label">Username</label>
+                    <input id="signupusername" type="text" name="username" class="input">
+                </div>
+                <div class="group">
+                    <label for="signuppassword" class="label">Password</label>
+                    <input id="signuppassword" type="password" name="password" class="input" data-type="password">
+                </div>
+                <div class="group">
+                    <label for="signupnickname" class="label">Nickname</label>
+                    <input id="signupnickname" type="text" name="nickname" class="input">
+                </div>
+
+                <div class="group">
+                    <input id="admin-check" type="checkbox" name="admin" onclick="toggleAdminSection()"
+                           style="margin-top: 40px;">관리자
+                    <input id="admin-token" type="password" name="adminToken" placeholder="관리자 암호"
+                           class="login-input-box" style="display:none">
+                </div>
+                <div class="group">
+                    <button id="login-id-submit" onclick="signup()">Sign Up</button>
+                </div>
+
+                <div class="hr"></div>
+                <div class="foot-lnk">
+                    <label for="tab-1">이미 회원이신가요?</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
