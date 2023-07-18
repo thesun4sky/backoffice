@@ -30,7 +30,6 @@ public class Post extends Timestamped{
     private String nickname;
     @Column
     private long views;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -54,4 +53,13 @@ public class Post extends Timestamped{
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
     }
+
+    public void addcomment(Comment comment) {
+        this.commentList.add(comment);
+    }
+
+    public void deletecomment(Comment comment) {
+        this.commentList.remove(comment);
+    }
+
 }
