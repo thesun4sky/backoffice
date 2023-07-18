@@ -4,7 +4,6 @@ import com.sparta.backoffice.dto.AuthRequestDto;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.jwt.JwtUtil;
-import com.sparta.backoffice.repository.BlackListRepository;
 import com.sparta.backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +21,7 @@ public class UserService {
 
     private final JwtUtil jwtUtil;
 
-    private final BlackListRepository blackListRepository;
+//    private final BlackListRepository blackListRepository;
 
     private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
@@ -59,7 +58,7 @@ public class UserService {
                 () -> new IllegalArgumentException("등록된 아이디가 없습니다.")
         );
 
-        if (!passwordEncoder.matches(password, requestDto.getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
     }
