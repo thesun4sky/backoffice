@@ -12,11 +12,13 @@ public class PostsResponseDto {
     private String nickname;
     private int comment_count;
     private long views;
+    private long likeCount;
 
     public PostsResponseDto(Post post) {
         this.title = post.getTitle();
         this.nickname = post.getNickname();
         this.comment_count = post.getCommentList().size();
         this.views = post.getViews();
+        this.likeCount = post.getLikeCount();
     }
 }

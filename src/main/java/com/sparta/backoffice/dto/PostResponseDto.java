@@ -17,6 +17,7 @@ public class PostResponseDto {
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
     private long views;
+    private long likeCount;
 
     public PostResponseDto(Post post) {
         this.username = post.getUsername();
@@ -26,5 +27,6 @@ public class PostResponseDto {
         this.createAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
         this.views = post.getViews();
+        this.likeCount = post.getLikeCount();
     }
 }

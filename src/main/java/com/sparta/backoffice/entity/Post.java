@@ -30,6 +30,8 @@ public class Post extends Timestamped{
     private String nickname;
     @Column
     private long views;
+    @Column
+    private long likeCount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -44,6 +46,7 @@ public class Post extends Timestamped{
         this.content = requestDto.getContent();
         this.user = user;
         this.views = 0;
+        this.likeCount = 0;
     }
 
     public void plusViews(Post post) {

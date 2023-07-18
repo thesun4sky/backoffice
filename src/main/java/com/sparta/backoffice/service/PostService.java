@@ -31,9 +31,21 @@ public class PostService {
     }
 
     //게시글 전체조회: 제목, 닉네임, 댓글수, 조회수만 List형태로 만들어 return 한다.
-    public List<PostsResponseDto> getAllPost() {
+    public List<PostsResponseDto> getAllPost(String method) {
         List<PostsResponseDto> postsResponseDtoList = new ArrayList<>();
-        List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
+        List<Post> postList;
+
+        if (method.equals("createAt")) {
+            postList = postRepository.findAllByOrderByCreatedAtDesc();
+        } else if (method.equals("views")) {
+            postList = postRepository.findAllByOrderByViewsDesc();
+        } else if (method.equals("likes")) {
+            postList = postRepository.findAllByOrderByLikeCountDesc();
+        } else {
+            throw new IllegalArgumentException("올바른 url이 아닙니다.");
+        }
+
+
 
         for (Post post: postList) {
             postsResponseDtoList.add(new PostsResponseDto(post));
@@ -62,8 +74,12 @@ public class PostService {
         if (post.getUsername().equals(user.getUsername())) {
             post.update(requestDto);
             post.setNickname(setAnonymous(requestDto, user));
+        } else if (user.getRole().equals(UserRoleEnum.ADMIN)){
+            post.update(requestDto);
+            User author = post.getUser();
+            post.setNickname(setAnonymous(requestDto, author));
         } else {
-            throw new IllegalArgumentException("본인이 아니면 수정할수 없습니다.");
+            throw new IllegalArgumentException("본인이 아니거나 관리자가 아니면 수정할수 없습니다.");
         }
 
         return new PostResponseDto(post);
@@ -75,11 +91,12 @@ public class PostService {
         if (post.getUsername().equals(user.getUsername()) || user.getRole().equals(UserRoleEnum.ADMIN)) {
             postRepository.delete(post);
         } else {
-            throw new IllegalArgumentException("본인이 아니면 삭제할수 없습니다.");
+            throw new IllegalArgumentException("본인이 아니거나 관리자가 아니면 삭제할수 없습니다.");
         }
     }
 
 
+    //---------------------private 메서드------------------------------
     // id로 Post entity를 찾아주는 메서드
     private Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(

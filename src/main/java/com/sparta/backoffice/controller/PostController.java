@@ -28,9 +28,9 @@ public class PostController {
     }
 
     // 게시글 전체 조회
-    @GetMapping("/posts")
-    public List<PostsResponseDto> getAllPost() {
-        return postService.getAllPost();
+    @GetMapping("/posts/{method}")
+    public List<PostsResponseDto> getAllPost(@PathVariable String method) {
+        return postService.getAllPost(method);
     }
 
     // 게시글 하나 조회
