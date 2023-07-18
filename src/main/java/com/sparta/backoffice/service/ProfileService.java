@@ -2,17 +2,16 @@ package com.sparta.backoffice.service;
 
 import com.sparta.backoffice.dto.ProfileRequestDto;
 import com.sparta.backoffice.dto.ProfileResponseDto;
-import com.sparta.backoffice.entity.Post;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -109,7 +108,6 @@ public class ProfileService {
         //비밀번호 확인 & 접근 권한
         if (!(passwordEncoder.matches(password, user.getPassword()) || user.getRole().equals(UserRoleEnum.ADMIN))) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않거나 접근 권한이 없습니다.");
-
         }
 
         //username과 같은 이름의 최근 비밀번호를 받아오기
