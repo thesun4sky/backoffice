@@ -4,6 +4,7 @@ import com.sparta.backoffice.dto.AuthRequestDto;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.jwt.JwtUtil;
+import com.sparta.backoffice.repository.BlackListRepository;
 import com.sparta.backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,11 +18,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final BlackListRepository blackListRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final JwtUtil jwtUtil;
-
-//    private final BlackListRepository blackListRepository;
 
     private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
@@ -32,8 +33,8 @@ public class UserService {
         String nickname = requestDto.getNickname();
 
         UserRoleEnum role = UserRoleEnum.USER;
-        if(requestDto.isAdmin()) {
-            if(!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
+        if (requestDto.isAdmin()) {
+            if (!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
                 throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
             }
             role = UserRoleEnum.ADMIN;
@@ -63,13 +64,9 @@ public class UserService {
         }
     }
 
-    /* 미완성 */
-//    @Transactional
-//    public void logout(String token) {
-//
-//        // 토큰을 블랙리스트에 추가
-//        BlackList blackList = new BlackList(token);
-//        blackListRepository.save(blackList);
-//    }
-
+    public void logout(String token) {
+        // 토큰을 블랙리스트에 추가
+        BlackList blackList = new BlackList(token);
+        blackListRepository.save(blackList);
+    }
 }
