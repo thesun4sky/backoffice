@@ -6,6 +6,7 @@ public enum UserRoleEnum {
     ADMIN(Authority.ADMIN);
 
     private final String authority;
+
     UserRoleEnum(String authority) {
         this.authority = authority;
     }
@@ -18,4 +19,5 @@ public enum UserRoleEnum {
         public static final String USER = "ROLE_USER";
         public static final String ADMIN = "ROLE_ADMIN";
     }
+
 }

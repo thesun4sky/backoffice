@@ -1,6 +1,7 @@
 package com.sparta.backoffice.jwt;
 
 import com.sparta.backoffice.entity.BlackList;
+
 import com.sparta.backoffice.repository.BlackListRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -101,4 +102,5 @@ public class JwtUtil {
         BlackList blackList = blackListRepository.findByToken(token).orElse(null);
         return blackList != null;
     }
+
 }

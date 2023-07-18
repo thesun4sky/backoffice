@@ -23,14 +23,12 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
     @Column(nullable = false)
     private String password;
-
 
     @OneToMany(mappedBy = "user")
     private List<Post> postList = new ArrayList<>();
