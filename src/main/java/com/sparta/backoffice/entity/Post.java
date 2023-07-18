@@ -29,7 +29,7 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String nickname;
     @Column
-    private int views;
+    private long views;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

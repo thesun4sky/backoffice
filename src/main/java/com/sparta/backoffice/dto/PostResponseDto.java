@@ -11,16 +11,20 @@ import java.time.LocalDateTime;
 @Setter
 public class PostResponseDto {
     private String username;
+    private String nickname;
     private String title;
     private String content;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
+    private long views;
 
     public PostResponseDto(Post post) {
         this.username = post.getUsername();
+        this.nickname = post.getNickname();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.createAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
+        this.views = post.getViews();
     }
 }
