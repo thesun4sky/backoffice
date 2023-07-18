@@ -5,6 +5,7 @@ import com.sparta.backoffice.dto.PostResponseDto;
 import com.sparta.backoffice.dto.PostsResponseDto;
 import com.sparta.backoffice.entity.Post;
 import com.sparta.backoffice.entity.User;
+import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +72,7 @@ public class PostService {
     //게시글 삭제
     public void deletePost(Long id, User user) {
         Post post = findById(id);
-        if (post.getUsername().equals(user.getUsername())) {
+        if (post.getUsername().equals(user.getUsername()) || user.getRole().equals(UserRoleEnum.ADMIN)) {
             postRepository.delete(post);
         } else {
             throw new IllegalArgumentException("본인이 아니면 삭제할수 없습니다.");
