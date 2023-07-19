@@ -5,7 +5,7 @@ import com.sparta.backoffice.entity.BlackList;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.jwt.JwtUtil;
-//import com.sparta.backoffice.repository.BlackListRepository;
+import com.sparta.backoffice.repository.BlackListRepository;
 import com.sparta.backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +56,7 @@ public class UserService {
         User user = new User(username, nickname, role, password);
         userRepository.save(user);
     }
+
 
     public void login(AuthRequestDto requestDto) {
         String username = requestDto.getUsername();

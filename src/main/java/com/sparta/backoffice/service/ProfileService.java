@@ -35,22 +35,22 @@ public class ProfileService {
     }
 
     //회원 개별 조회(관리자 모드)
-    public ProfileResponseDto getProfileByAdmin(Long id, UserRoleEnum role) {
+    public ProfileResponseDto getProfileByAdmin(String username, UserRoleEnum role) {
 
         //관리자 확인 체크
         User user = null;
         if (role.equals(UserRoleEnum.ADMIN)) {
-            user = findById(id);
+            user = findByUsername(username);
         }
 
         return new ProfileResponseDto(user);
 
     }
 
-    //id값 찾기
-    private User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.")
+    //username 찾기
+    private User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("선택한 회원은 존재하지 않습니다.")
         );
     }
 
@@ -74,6 +74,25 @@ public class ProfileService {
 
         return profileResponseDtoList;
 
+
+    }
+
+    //관리자가 회원 권한 부여(관리자 모드)
+    @Transactional
+    public String userToAdmin(String username, UserRoleEnum role, Boolean checkRole) {
+
+        //회원 정보 찾기
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("회원 정보가 없습니다."));
+
+        //권한 부여하기
+        if (role.equals(UserRoleEnum.ADMIN) && checkRole.equals(true)) {
+            user.setRole(UserRoleEnum.ADMIN);
+        }
+
+
+
+        return "수정이 완료되었습니다";
 
     }
 

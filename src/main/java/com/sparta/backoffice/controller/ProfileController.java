@@ -2,13 +2,10 @@ package com.sparta.backoffice.controller;
 
 import com.sparta.backoffice.dto.ProfileRequestDto;
 import com.sparta.backoffice.dto.ProfileResponseDto;
-import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.security.UserDetailsImpl;
 import com.sparta.backoffice.service.ProfileService;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -41,16 +38,15 @@ public class ProfileController {
     }
 
     //회원 프로필 개별 조회(관리자 모드)
-    @GetMapping("/profile/{id}")
+    @GetMapping("/profile/{username}")
     public ProfileResponseDto getProfileByAdmin(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                @PathVariable Long id) {
+                                                @PathVariable String username) {
         //관리자 확인
         UserRoleEnum role = userDetails.getUser().getRole();
 
-        return profileService.getProfileByAdmin(id, role);
+        return profileService.getProfileByAdmin(username, role);
 
     }
-
 
     //전체 프로필 조회(관리자 모드)
     @GetMapping("/profiles")
@@ -59,7 +55,26 @@ public class ProfileController {
         UserRoleEnum roleEnum = userDetails.getUser().getRole();
         //프로필 전체 조회
         return profileService.getProfileList(roleEnum);
+
     }
+
+    //관리자가 일반 회원에게 관리자 권한 부여
+    @PutMapping("profile/role/{username}")
+    public String userToAdmin(@PathVariable String username,
+                              @AuthenticationPrincipal UserDetailsImpl userDetails,
+                              @RequestBody ProfileRequestDto profileRequestDto) {
+
+        //관리자 확인
+        UserRoleEnum role = userDetails.getUser().getRole();
+
+        // 받아온 값 저장
+        Boolean checkRole = profileRequestDto.isAdmin();
+
+        return profileService.userToAdmin(username, role, checkRole);
+
+
+    }
+
 
     //프로필 수정
     @PutMapping("/profile/update")

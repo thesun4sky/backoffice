@@ -10,6 +10,8 @@ public class ProfileRequestDto {
     private String username;
     private String nickname;
 
+    private boolean admin = false;
+
     private String password;
     private String newPassword;
 
