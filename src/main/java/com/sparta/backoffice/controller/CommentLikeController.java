@@ -19,13 +19,13 @@ public class CommentLikeController {
 
     private final CommentLikeService commentLikeService;
 
-    @PostMapping("/api/comment/{commentid}/like")
-    public ResponseEntity<String> addcommentlike(@PathVariable Long commentid, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentLikeService.addcommentlike(commentid, userDetails.getUser());
+    @PostMapping("/api/post/{postid}/comment/{commentid}/like")
+    public ResponseEntity<String> addcommentlike(@PathVariable Long postid, @PathVariable Long commentid, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentLikeService.addcommentlike(postid, commentid, userDetails.getUser());
     }
 
-    @PutMapping("/api/comment/{commentid}/like")
-    public ResponseEntity<String> cancelcommentlike(@PathVariable Long commentid, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentLikeService.cancelcommentlike(commentid, userDetails.getUser());
+    @PutMapping("/api/post/{postid}/comment/{commentid}/like")
+    public ResponseEntity<String> cancelcommentlike(@PathVariable Long postid, @PathVariable Long commentid, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentLikeService.cancelcommentlike(postid, commentid, userDetails.getUser());
     }
 }
