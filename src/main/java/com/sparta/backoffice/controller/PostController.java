@@ -53,4 +53,10 @@ public class PostController {
         postService.deletePost(id, user);
         return "삭제 성공~";
     }
+
+    //게시글 검색
+    @GetMapping("/post")
+    public List<PostsResponseDto> searchPost(@RequestParam String text) {
+        return postService.searchPost(text);
+    }
 }
