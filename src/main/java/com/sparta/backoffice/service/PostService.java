@@ -98,6 +98,18 @@ public class PostService {
         }
     }
 
+    // 검색 기능
+    public List<PostsResponseDto> searchPost(String text) {
+        List<Post> postList = postRepository.findAll();
+        List<PostsResponseDto> postsResponseDtoList = new ArrayList<>();
+        for (int i = 0; i < postList.size(); i++) {
+            if (postList.get(i).getTitle().contains(text) || postList.get(i).getContent().contains(text)) {
+                postsResponseDtoList.add(new PostsResponseDto(postList.get(i)));
+            }
+        }
+        return postsResponseDtoList;
+    }
+
 
     //---------------------private 메서드------------------------------
     // id로 Post entity를 찾아주는 메서드
