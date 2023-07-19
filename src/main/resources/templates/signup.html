@@ -10,13 +10,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 페이지</title>
-    <script src="/js/basic.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
             integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-
 </head>
 <body>
 <div class="login-wrap">
@@ -35,13 +33,13 @@
                 </div>
 
                 <div class="group">
-                    <button id="login-submit" onclick="login()">로그인</button>
+                    <button id="login-submit" onclick="login()">login</button>
                 </div>
                 <div class="hr"></div>
 
-<!--                <div class="group">-->
-<!--                    <button class="buttons" value="카카오 로그인">카카오 로그인</button>-->
-<!--                </div>-->
+                <!--                <div class="group">-->
+                <!--                    <button class="buttons" value="카카오 로그인">카카오 로그인</button>-->
+                <!--                </div>-->
 
             </div>
             <div class="sign-up-htm">
@@ -78,11 +76,105 @@
     </div>
 </div>
 </body>
-
 <script>
-    $(document).ready(function () {
-        // 토큰 삭제
-        Cookies.remove('Authorization', {path: '/'});
-    });
+    const host = 'http://' + window.location.host;
+    function getJwtFromCookie() {
+        const cookieName = 'Authorization'; // JWT가 저장된 쿠키의 이름
+        const cookies = document.cookie.split(';');
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+
+            if (cookie.startsWith(`${cookieName}=`)) {
+                const jwtCookie = cookie.substring(cookieName.length + 1);
+                return jwtCookie;
+            }
+        }
+
+        return null; // JWT가 존재하지 않는 경우 null 반환
+    }
+    function toggleAdminSection() {
+        var adminSection = document.getElementById("admin-section");
+        var adminCheckbox = document.getElementById("admin-check");
+
+        if (adminCheckbox.checked) {
+            adminSection.style.display = "block";
+        } else {
+            adminSection.style.display = "none";
+        }
+    }
+
+    function signup() {
+        var username = document.getElementById('signupusername').value;
+        var password = document.getElementById('signuppassword').value;
+        var nickname = document.getElementById('signupnickname').value;
+        var adminToken = document.getElementById('admin-token').value;
+        var isAdmin = document.getElementById('admin-check').checked;
+
+        console.log(username, password, nickname, adminToken, isAdmin);
+
+        if (username === '' || password === '' || nickname === '') {
+            alert('회원가입 정보를 모두 입력해주세요.');
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/auth/signup',
+            data: JSON.stringify({
+                username: username,
+                password: password,
+                nickname: nickname,
+                adminToken: adminToken,
+                admin: isAdmin
+            }),
+            contentType: 'application/json',
+            success: function (response) {
+                alert('회원가입이 성공적으로 완료되었습니다.');
+                window.location.href = host + '/api/auth/login-page';
+            },
+            error: function (jqXHR, textStatus) {
+                alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
+            }
+
+        });
+    }
+
+    function login() {
+        var username = document.getElementById('loginusername').value;
+        var password = document.getElementById('loginpassword').value;
+        const jwtCookie = getJwtFromCookie();
+
+        console.log(username, password);
+
+        if (username === '' || password === '') {
+            alert('정보를 모두 입력해주세요.');
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: `/api/auth/login`,
+            contentType: "application/json",
+            data: JSON.stringify({username: username, password: password}),
+        })
+            .done(function (res, status, xhr) {
+                // const token = xhr.getResponseHeader('Authorization');
+                //
+                // Cookies.set('Authorization', token, {path: '/'})
+                //
+                // $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                //     jqXHR.setRequestHeader('Authorization', token);
+                // });
+
+                window.location.href = host;
+            })
+            .fail(function (jqXHR, textStatus) {
+                alert("로그인 실패")
+            });
+    }
+
+
 </script>
 </html>
+
