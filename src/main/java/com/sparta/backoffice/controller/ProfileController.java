@@ -6,6 +6,7 @@ import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.security.UserDetailsImpl;
 import com.sparta.backoffice.service.ProfileService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.UserTransaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +73,21 @@ public class ProfileController {
 
         return profileService.userToAdmin(username, role, checkRole);
 
+
+    }
+
+    //관리자가 다른 관리자 권한 삭제
+    @PutMapping("profile/role/delete/{username}")
+    public String dropAdmin(@PathVariable String username,
+                            @AuthenticationPrincipal UserDetailsImpl userDetails,
+                            @RequestBody ProfileRequestDto profileRequestDto){
+        //관리자 확인
+        UserRoleEnum role = userDetails.getUser().getRole();
+
+        // 받아온 값 저장
+        Boolean checkRole = profileRequestDto.isAdmin();
+
+        return profileService.dropAdmin(username, role, checkRole);
 
     }
 

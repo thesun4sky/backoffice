@@ -91,9 +91,25 @@ public class ProfileService {
         }
 
 
-
         return "수정이 완료되었습니다";
 
+    }
+
+    //관리자가 관리자 권한 회원으로 변경 (관리자 모드)
+    @Transactional
+    public String dropAdmin(String username, UserRoleEnum role, Boolean checkRole) {
+
+        //회원 정보 찾기
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("회원정보를 찾을 수 없습니다."));
+
+        //관리자이면서 받아온 값이 false이면 다른 관리자 회원으로 변경
+        if (role.equals(UserRoleEnum.ADMIN) && checkRole.equals(false)) {
+            user.setRole(UserRoleEnum.USER);
+
+        }
+
+        return "회원으로 전환되었습니다.";
     }
 
 
