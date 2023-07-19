@@ -34,10 +34,10 @@ public class PostController {
     }
 
     // 게시글 하나 조회
-    @GetMapping("/post/{id}")
-    public PostResponseDto getOnePost(@PathVariable Long id) {
-        return postService.getOnePost(id);
-    }
+//    @GetMapping("/post/{id}")
+//    public PostResponseDto getOnePost(@PathVariable Long id) {
+//        return postService.getOnePost(id);
+//    }
 
     // 게시글 업데이트
     @PutMapping("/post/{id}")
