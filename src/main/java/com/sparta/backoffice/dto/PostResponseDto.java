@@ -2,6 +2,7 @@ package com.sparta.backoffice.dto;
 
 import com.sparta.backoffice.entity.Post;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -11,10 +12,10 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class PostResponseDto {
 
     private Long id;
-
     private String username;
     private String nickname;
     private String title;
@@ -24,6 +25,7 @@ public class PostResponseDto {
     private long views;
     private long likeCount;
     private long commentCount;
+    private Boolean anonymous;
     private List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
     public PostResponseDto(Post post) {
@@ -33,6 +35,11 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.content = post.getContent();
         this.createAt = post.getCreatedAt();
+        if (post.getNickname().contains("*")) {
+            this.anonymous = true;
+        } else {
+            this.anonymous = false;
+        }
         this.modifiedAt = post.getModifiedAt();
         this.views = post.getViews();
         this.likeCount = post.getLikeCount();
