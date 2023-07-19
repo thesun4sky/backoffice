@@ -39,8 +39,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String token = jwtUtil.resolveToken(request);
+        log.info("토큰 검증");
+//        String token = jwtUtil.resolveToken(request);
+        String token = jwtUtil.getTokenFromRequest(request);
+        token = jwtUtil.substringToken(token);
 
+        log.info(token);
         if (token != null) {
             if (!jwtUtil.validateToken(token)) {
                 StatusResponseDto responseDto = new StatusResponseDto("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST.value());
