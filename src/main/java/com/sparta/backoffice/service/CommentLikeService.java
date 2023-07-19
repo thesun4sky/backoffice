@@ -8,7 +8,6 @@ import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.repository.CommentLikeRepository;
 import com.sparta.backoffice.repository.CommentRepository;
 import com.sparta.backoffice.repository.PostRepository;
-import com.sparta.backoffice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

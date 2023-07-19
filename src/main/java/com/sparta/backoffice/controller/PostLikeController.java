@@ -3,8 +3,8 @@ package com.sparta.backoffice.controller;
 import com.sparta.backoffice.entity.User;
 import com.sparta.backoffice.security.UserDetailsImpl;
 import com.sparta.backoffice.service.PostLikeService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +22,6 @@ public class PostLikeController {
 
     @PostMapping("/api/post/{id}/like")
     public ResponseEntity<String> addPostLike(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        log.info("좋아요 요청 시도");
         User user = userDetails.getUser();
         try {
             postLikeService.addPostLike(id, user);
@@ -33,7 +32,7 @@ public class PostLikeController {
     }
 
     @PutMapping("/api/post/{id}/like")
-    public ResponseEntity<String> cancelPostLike(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<String>  cancelPostLike(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         try {
             postLikeService.cancelPostLike(id, user);

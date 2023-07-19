@@ -60,17 +60,17 @@ public class PostLikeService {
         }
     }
 
-    public String likefind(Long id, User user) {
+    public Boolean likefind(Long id, User user) {
         Post post = findPostById(id);
         Optional<PostLike> postLike = findPostLikeByPostAndUser(post, user);
         if (postLike.isPresent()) {
             if (postLike.get().getLike()) {
-                return "true";
+                return true;
             } else {
-                return "false";
+                return false;
             }
         } else {
-            return "false";
+            return false;
         }
     }
 
