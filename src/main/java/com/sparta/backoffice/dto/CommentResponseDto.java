@@ -22,8 +22,8 @@ public class CommentResponseDto {
 
     public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
-        this.username = comment.getUser().getUsername();
         this.nickname = comment.getUser().getNickname();
+        this.username = comment.getUser().getUsername();
         this.commentcontents = comment.getCommentcontents();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
@@ -34,5 +34,4 @@ public class CommentResponseDto {
         this.liked = b;
     }
     public void setStringLike(String s) {this.like = s;}
-
 }

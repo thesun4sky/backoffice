@@ -61,7 +61,6 @@ public class CommentService {
         return list;
     }
 
-
     @Transactional
     public CommentResponseDto createComment(Long postid, CommentRequestDto commentRequestDto, User user) {
         log.info("postid: " + postid + ", username: " + user.getUsername());
