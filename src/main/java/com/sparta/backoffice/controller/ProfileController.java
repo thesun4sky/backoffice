@@ -22,21 +22,21 @@ public class ProfileController {
 
 
     //프로필 정보 가져오기
-    @GetMapping("/profile")
-    public ProfileResponseDto getProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+//    @GetMapping("/profile")
+//    public ProfileResponseDto getProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+//
+//        //회원 이름 받기
+//        String username = userDetails.getUser().getUsername();
+//
+//
+//
+//        //회원 정보 가져오기
+//        return profileService.getProfile(userDetails.getUser());
+//
+//
+//    }
 
-        //회원 이름 받기
-        String username = userDetails.getUser().getUsername();
 
-        //관리자 확인
-        UserRoleEnum role = userDetails.getUser().getRole();
-
-
-        //회원 정보 가져오기
-        return profileService.getProfile(username, userDetails.getUser());
-
-
-    }
 
     //회원 프로필 개별 조회(관리자 모드)
     @GetMapping("/profile/{username}")

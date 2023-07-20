@@ -44,14 +44,14 @@
 
 <div class="text-center container">
     <div class = "button-container">
-        <button type="button" onclick="location.href='/'">HOME</button>
+        <button type="button" id="go_home" onclick="location.href='/'">HOME</button>
     </div>
     <form id="profileForm" name="infobox" style="margin-top: 15%; margin-right: 5%;">
         <table>
             <tr>
                 <th class="p-3">username</th>
                 <td>
-                    <span id="username" class="input-box form-control text-center"></span>
+                    <span id="username" th:text="${profile.username}"  class="input-box form-control text-center" ></span>
                 </td>
             </tr>
         </table>
@@ -59,7 +59,7 @@
             <tr>
                 <th class="p-3">nickname</th>
                 <td>
-                    <span id="nickname" class="input-box form-control text-center"></span>
+                    <span id="nickname" th:text="${profile.nickname}" class="input-box form-control text-center"></span>
                 </td>
             </tr>
         </table>
@@ -67,43 +67,28 @@
       <button type="button" id="edit_profile" class="btn btn-primary btn m-2">프로필 수정</button>
 
       <button type="button" id="edit_password" class="btn btn-primary btn m-2" >비밀번호 변경</button>
-<!--    <table>-->
-<!--        <tr>-->
-<!--            <td colspan="2">-->
-<!--                <button type="button" id="cancel" class="btn btn-secondary btn"-->
-<!--                        style="margin-left: 10px; margin-top: 10px;">Home</button>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
 </div>
 </body>
 </html>
+
+
+
 <script>
+    $('#go_home').click(function () {
+        window.location.href = 'index.html'; //홈 화면으로 이동
+    });
 
     $('#edit_profile').click(function () {
-        window.location.href = "/api/profile/update";
+        window.location.href = 'editProfile.html'; //프로필 수정 페이지로 이동
     });
 
     $('#edit_password').click(function () {
-        window.location.href = "/api/profile/password";
+        window.location.href = "editPassword.html"; //비밀번호 변경 페이지로 이동
     });
 
-    $.ajax({
-        url: "/api/profile",
-        type:"GET",
-        contentType:"application/json",
-        success: function (response){
-            let username = response.username; // 로그인 회원 아이디
-            let nickname = response.nickname; // 로그인 회원 닉네임
-
-            $('#username').text(username); // 회원 아이디를 해당 요소에 표시
-            $('#nickname').text(nickname); // 회원 닉네임을 해당 요소에 표시
-        },
-        error:function (error){
-            console.log(error);
-        }
-    })
 </script>
+
+
 
 
 

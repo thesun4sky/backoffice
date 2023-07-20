@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +23,10 @@ public class ProfileService {
 
 
     //프로필 정보 가져오기(사용자)
-    public ProfileResponseDto getProfile(String username, User user) {
+    public ProfileResponseDto getProfile(User user) {
 
         //회원 존재확인
-        userRepository.findByUsername(username)
+        userRepository.findByUsername(user.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원은 존재하지 않습니다"));
 
         //회원 정보 보여주기
@@ -47,12 +48,7 @@ public class ProfileService {
 
     }
 
-    //username 찾기
-    private User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(
-                () -> new IllegalArgumentException("선택한 회원은 존재하지 않습니다.")
-        );
-    }
+
 
 
     //전체 회원 조회 (관리자 모드)
@@ -126,8 +122,19 @@ public class ProfileService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않거나 접근 권한이 없습니다.");
         }
 
-        //새 닉네임 값 넣기
-        author.setNickname(profileRequestDto.getNickname());
+        //중복 닉네임 체크
+        String nickname = profileRequestDto.getNickname();
+
+        Optional<User> checkNickname =  userRepository.findByNickname(profileRequestDto.getNickname());
+
+        if (checkNickname.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 nickname 입니다.");
+        }
+
+
+       //새 닉네임 값 넣기
+       author.setNickname(profileRequestDto.getNickname());
+       
 
         return new ProfileResponseDto(author);
     }
@@ -167,6 +174,15 @@ public class ProfileService {
             author.updateLastPassword((String.join(" ", passwordList) + " " + passwordEncoder.encode(newPassword)).trim());
         }
     }
+
+
+    //username 찾기
+    private User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("선택한 회원은 존재하지 않습니다.")
+        );
+    }
+
 
 
 }
