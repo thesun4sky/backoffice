@@ -6,7 +6,6 @@ import com.sparta.backoffice.entity.UserRoleEnum;
 import com.sparta.backoffice.security.UserDetailsImpl;
 import com.sparta.backoffice.service.ProfileService;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.UserTransaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,6 @@ public class ProfileController {
 //
 //
 //    }
-
 
 
     //회원 프로필 개별 조회(관리자 모드)
@@ -80,7 +78,7 @@ public class ProfileController {
     @PutMapping("profile/role/delete/{username}")
     public String dropAdmin(@PathVariable String username,
                             @AuthenticationPrincipal UserDetailsImpl userDetails,
-                            @RequestBody ProfileRequestDto profileRequestDto){
+                            @RequestBody ProfileRequestDto profileRequestDto) {
         //관리자 확인
         UserRoleEnum role = userDetails.getUser().getRole();
 
@@ -110,8 +108,7 @@ public class ProfileController {
 
     }
 
-    //프로필 삭제
-
+    //비밀번호 변경
     @PutMapping("profile/password")
     public String passwordUpdate(@RequestBody ProfileRequestDto profileRequestDto,
                                  @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -123,11 +120,16 @@ public class ProfileController {
         //현재 비밀번호 확인
         String password = profileRequestDto.getPassword();
 
-
         //새 비밀번호 입력
         String newPassword = profileRequestDto.getNewPassword();
 
-        profileService.passwordUpdate(username, password, newPassword, userDetails.getUser());
+        // 새 비밀번호 확인
+        String checkPassword = profileRequestDto.getCheckPassword();
+
+        if(newPassword.equals(checkPassword)) {
+            profileService.passwordUpdate(username, password, newPassword, userDetails.getUser());
+        }
+        else throw new IllegalArgumentException("새 비밀번호가 일치하지 않습니다.");
 
         return "비밀번호가 변경 되었습니다.";
     }

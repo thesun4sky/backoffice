@@ -49,8 +49,6 @@ public class ProfileService {
     }
 
 
-
-
     //전체 회원 조회 (관리자 모드)
     public List<ProfileResponseDto> getProfileList(UserRoleEnum roleEnum) {
 
@@ -123,28 +121,33 @@ public class ProfileService {
         }
 
         //중복 닉네임 체크
-
-        Optional<User> checkNickname =  userRepository.findByNickname(profileRequestDto.getNickname());
+        Optional<User> checkNickname = userRepository.findByNickname(profileRequestDto.getNickname());
 
         if (checkNickname.isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 nickname 입니다.");
         }
 
 
-       //새 닉네임 값 넣기
-       author.setNickname(profileRequestDto.getNickname());
-       
+        //새 닉네임 값 넣기
+        author.setNickname(profileRequestDto.getNickname());
+
 
         return new ProfileResponseDto(author);
     }
 
 
+    //비밀번호 변경
     @Transactional
-    public void passwordUpdate(String username, String password, String newPassword, User user) {
+    public void passwordUpdate(String username,
+                               String password,
+                               String newPassword,
+                               User user) {
 
         //사용자 회원 존재 확인
         User author = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 존재하지 않습니다."));
+
+
 
         //비밀번호 확인 & 접근 권한
         if (!(passwordEncoder.matches(password, user.getPassword()) || user.getRole().equals(UserRoleEnum.ADMIN))) {
@@ -181,7 +184,6 @@ public class ProfileService {
                 () -> new IllegalArgumentException("선택한 회원은 존재하지 않습니다.")
         );
     }
-
 
 
 }
