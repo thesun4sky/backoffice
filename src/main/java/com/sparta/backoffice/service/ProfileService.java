@@ -123,7 +123,6 @@ public class ProfileService {
         }
 
         //중복 닉네임 체크
-        String nickname = profileRequestDto.getNickname();
 
         Optional<User> checkNickname =  userRepository.findByNickname(profileRequestDto.getNickname());
 
