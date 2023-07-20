@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 public class PostResponseDto {
 
+    private Long id;
     private String username;
     private String nickname;
     private String title;
@@ -25,6 +26,7 @@ public class PostResponseDto {
     private List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
     public PostResponseDto(Post post) {
+        this.id = post.getId();
         this.username = post.getUsername();
         this.nickname = post.getNickname();
         this.title = post.getTitle();

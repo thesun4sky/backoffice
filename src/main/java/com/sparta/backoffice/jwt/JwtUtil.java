@@ -102,5 +102,4 @@ public class JwtUtil {
         BlackList blackList = blackListRepository.findByToken(token).orElse(null);
         return blackList != null;
     }
-
 }
