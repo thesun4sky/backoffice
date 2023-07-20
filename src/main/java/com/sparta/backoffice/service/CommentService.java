@@ -23,6 +23,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
+    @Transactional
     public CommentResponseDto createComment(Long postid, CommentRequestDto commentRequestDto, User user) {
         log.info("postid: " + postid + ", username: " + user.getUsername());
 
