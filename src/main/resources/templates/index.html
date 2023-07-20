@@ -1,10 +1,415 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <title>메인 페이지</title>
+    <style>
+        * {
+            font-family: "Poppins", sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            color: #000000;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        a {
+            position: relative;
+            display: inline-block;
+            color: #000000;
+            font-size: 16px;
+            text-decoration: none;
+            text-transform: uppercase;
+            overflow: hidden;
+            transition: 0.5s;
+            margin-top: 20px;
+            letter-spacing: 4px;
+        }
+
+        .logoutbtn {
+            width: 60%;
+            height: 15%;
+            margin: 10px auto 0px;
+            align-items: center;
+            display: flex;
+            /*justify-items: center;*/
+            /*text-align: right;*/
+            justify-content: space-between;
+        }
+
+        .header {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            flex-direction: column;
+        }
+
+        .line {
+            margin: 0;
+            width: 100%;
+            height: 0.5%;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            opacity: 0.2;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes floatClouds {
+            0%, 100% {
+                transform: translateX(-50px);
+            }
+
+            50% {
+                transform: translateX(50px);
+            }
+        }
+
+        .title1 {
+            font-size: 50px;
+            color: #D85858;
+            text-shadow: 0px 0px 20px #C3F8FF;
+            position: relative;
+            float: left;
+            animation: ani 1s infinite alternate;
+        }
+
+        .title2 {
+            position: relative;
+            font-size: 20px;
+        }
+
+        .title2 > span {
+            position: relative;
+            color: #ABD9FF;
+            animation: ani 1s infinite alternate;
+        }
+
+        @keyframes ani {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(0, 5px);
+            }
+        }
+
+
+        .header > div:nth-child(6),
+        .header > div:nth-child(7) {
+            width: 100%;
+            text-align: center;
+        }
+
+        .row {
+            width: 100%;
+        }
+
+        .cards {
+            background-color: transparent;
+            width: 60%;
+            overflow: scroll;
+            overflow-x: hidden;
+            margin-bottom: 10px;
+        }
+
+        .cards::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .cards::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        .cards::-webkit-scrollbar-thumb {
+            border-radius: 3px;
+            background-color: #A7ECEE;
+        }
+
+        .cards::-webkit-scrollbar-button {
+            width: 0;
+            height: 0;
+        }
+
+        .card {
+            width: 100%;
+            min-height: 10px;
+            height: 85%;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.1);
+            /*box-shadow: 0 0px 25px rgba(0, 0, 0, 0.1);*/
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            color: #000
+        }
+
+        .card-body {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .left-content {
+            flex-grow: 1;
+        }
+
+        .right-content {
+            display: flex;
+            float: right;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+        }
+
+        .right-content > button {
+            height: 50%;
+        }
+
+        h3 {
+            margin: 0;
+        }
+
+        /*---------------------------------------------------메뉴 css 시작*/
+        @import url('https://fonts.googleapis.com/css?family=Cutive+Mono');
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+        }
+
+        body {
+            font-family: "Cutive Mono", serif;
+            font-size: 1.2em;
+            line-height: 1.6;
+            background: #CCC;
+            overflow-x: hidden;
+        }
+
+        label .menu {
+            position: absolute;
+            right: -100px;
+            top: -100px;
+            z-index: 100;
+            width: 200px;
+            height: 200px;
+            background: #FFF;
+            border-radius: 50% 50% 50% 50%;
+            transition: .5s ease-in-out;
+            box-shadow: 0 0 0 0 #FFF, 0 0 0 0 #FFF;
+            cursor: pointer;
+        }
+
+        label .hamburger {
+            position: absolute;
+            top: 135px;
+            left: 50px;
+            width: 30px;
+            height: 2px;
+            background: #000;
+            display: block;
+            transform-origin: center;
+            transition: .5s ease-in-out;
+        }
+
+        label .hamburger:after,
+        label .hamburger:before {
+            transition: .5s ease-in-out;
+            content: "";
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        label .hamburger:before {
+            top: -10px;
+        }
+
+        label .hamburger:after {
+            bottom: -10px;
+        }
+
+        input {
+            display: none;
+        }
+
+        input:checked + .menu {
+            box-shadow: 0 0 0 100vw #FFF, 0 0 0 100vh #FFF;
+            border-radius: 0;
+        }
+
+        input:checked + .menu .hamburger {
+            transform: rotate(45deg);
+        }
+
+        input:checked + .menu .hamburger:after {
+            transform: rotate(90deg);
+            bottom: 0;
+        }
+
+        input:checked + .menu .hamburger:before {
+            transform: rotate(90deg);
+            top: 0;
+        }
+
+        input:checked + .menu + ul {
+            opacity: 1;
+        }
+
+        ul {
+            z-index: 200;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: .25s 0s ease-in-out;
+        }
+
+        a{
+            margin-bottom: 1em;
+            display: block;
+            color: #000;
+            text-decoration: none;
+        }
+
+        /*---------------------------------------------------메뉴 css 끝*/
+
+
+    </style>
 </head>
+
 <body>
 
+<!---------------------------------------------------------메뉴시작--->
+<label>
+    <input type="checkbox">
+    <span class="menu">
+    <span class="hamburger"></span>
+  </span>
+        <ul>
+            <li>
+                <a href="/api/auth/login-page" id="loginButton" >로그인</a>
+                <a id="logoutButton" onclick=logout()>로그아웃</a><br>
+                <a href="/api/admin" id="mypageButton">정보 수정</a><br>
+                <a href="/api/admin" id="adminButton">관리자</a><br>
+            </li>
+        </ul>
+</label>
+<!---------------------------------------------------------메뉴끝--->
+
+<div class="header">
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+    <div class="cloud cloud4"></div>
+    <div class="cloud cloud5"></div>
+    <div><h1 class="title1">Back<br> Office</h1></div>
+</div>
+
+<div class="line"></div>
+
 </body>
+<script>
+    const host = 'http://' + window.location.host;
+
+    function logout() {
+        window.location.href = "/";
+        deleteJwtCookie();
+    }
+
+    function deleteJwtCookie() {
+        const cookieName = 'Authorization'; // JWT가 저장된 쿠키의 이름
+        // 만료일을 예전 날짜로 설정하여 쿠키를 삭제합니다.
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    }
+
+    // 페이지 로드 시 JWT 토큰 여부를 확인하여 로그인/로그아웃 버튼을 표시하거나 감추는 함수
+    function toggleButtons() {
+        const loginButton = document.getElementById('loginButton'); // 로그인 버튼 요소를 가져옴
+        const logoutButton = document.getElementById('logoutButton'); // 로그아웃 버튼 요소를 가져옴
+        const mypageButton = document.getElementById('mypageButton'); // 마이페이지 버튼 요소를 가져옴
+        const adminButton = document.getElementById('adminButton'); // 관리자페이지 버튼 요소를 가져옴
+
+        const jwtToken = getJwtFromCookie(); // Request 헤더에서 JWT 토큰을 가져옴
+
+        console.log(jwtToken);
+
+        if (jwtToken) {
+            loginButton.style.display = 'none'; // JWT 토큰이 존재하면 로그인 버튼을 감춤
+            logoutButton.style.display = 'inline'; // JWT 토큰이 존재하면 로그아웃 버튼을 표시
+            mypageButton.style.display = 'inline';
+            adminButton.style.display = 'inline';
+        } else {
+            loginButton.style.display = 'inline'; // JWT 토큰이 존재하지 않으면 로그인 버튼을 표시
+            logoutButton.style.display = 'none'; // JWT 토큰이 존재하지 않으면 로그아웃 버튼을 감춤
+            mypageButton.style.display = 'none';
+            adminButton.style.display = 'none';
+        }
+    }
+
+    function getJwtFromCookie() {
+        const cookieName = 'Authorization'; // JWT가 저장된 쿠키의 이름
+        const cookies = document.cookie.split(';');
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+
+            if (cookie.startsWith(`${cookieName}=`)) {
+                const jwtCookie = cookie.substring(cookieName.length + 1);
+                return jwtCookie;
+            }
+        }
+
+        return null; // JWT가 존재하지 않는 경우 null 반환
+    }
+
+    // 페이지 로드 시 toggleButtons 함수를 호출하여 버튼 초기 상태를 설정
+    toggleButtons();
+
+</script>
 </html>
