@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response,String name){
         jwtUtil.deleteCookie(request,response,"Authorization");
-        return "redirect:/api/auth/login-page";
+        return "redirect:/";
     }
 
     @GetMapping("/")
