@@ -334,16 +334,9 @@
         <ul>
             <li>
                 <a href="/api/auth/login-page" id="loginButton" >로그인</a>
-                <a id="logoutButton" onclick=logout()>로그아웃</a>
-            </li>
-            <li>
-                <a href="/api/posts" id="postButton">게시글</a>
-            </li>
-            <li>
-                <a href="/api/admin" id="mypageButton">정보 수정</a>
-            </li>
-            <li>
-                <a href="/api/admin" id="adminButton">관리자</a>
+                <a id="logoutButton" onclick=logout()>로그아웃</a><br>
+                <a href="/api/admin" id="mypageButton">정보 수정</a><br>
+                <a href="/api/admin" id="adminButton">관리자</a><br>
             </li>
         </ul>
 </label>
@@ -365,15 +358,15 @@
     const host = 'http://' + window.location.host;
 
     function logout() {
-        window.location.href = "/api/logout";
-        // deleteJwtCookie();
+        window.location.href = "/";
+        deleteJwtCookie();
     }
 
-    // function deleteJwtCookie() {
-    //     const cookieName = 'Authorization'; // JWT가 저장된 쿠키의 이름
-    //     // 만료일을 예전 날짜로 설정하여 쿠키를 삭제합니다.
-    //     document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    // }
+    function deleteJwtCookie() {
+        const cookieName = 'Authorization'; // JWT가 저장된 쿠키의 이름
+        // 만료일을 예전 날짜로 설정하여 쿠키를 삭제합니다.
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    }
 
     // 페이지 로드 시 JWT 토큰 여부를 확인하여 로그인/로그아웃 버튼을 표시하거나 감추는 함수
     function toggleButtons() {
