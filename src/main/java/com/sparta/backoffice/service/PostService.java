@@ -48,8 +48,6 @@ public class PostService {
             throw new IllegalArgumentException("올바른 url이 아닙니다.");
         }
 
-
-
         for (Post post: postList) {
             postsResponseDtoList.add(new PostsResponseDto(post));
         }

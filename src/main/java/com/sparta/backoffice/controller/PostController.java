@@ -27,12 +27,6 @@ public class PostController {
         return postService.createPost(requestDto, user);
     }
 
-    // 게시글 전체 조회
-    @GetMapping("/posts/{method}")
-    public List<PostsResponseDto> getAllPost(@PathVariable String method) {
-        return postService.getAllPost(method);
-    }
-
     // 게시글 하나 조회
     @GetMapping("/post/{id}")
     public PostResponseDto getOnePost(@PathVariable Long id) {
