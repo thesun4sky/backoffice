@@ -35,11 +35,11 @@
             <tr>
                 <th class="p-3">username</th>
                 <td>
-                    <input type="text" id="username" class="inputbox form-control text-center"
-                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <span id="username" th:text="${profile.username}"  class="input-box form-control text-center" ></span>
                 </td>
             </tr>
         </table>
+
         <table>
             <tr>
                 <th class="p-3">nickname</th>
@@ -51,11 +51,22 @@
 
         </table>
 
+        <table>
+            <tr>
+                <th class="p-3">password</th>
+                <td>
+                    <input type="text" id="password" class="inputbox form-control text-center"
+                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </td>
+            </tr>
+        </table>
 
-    <div style="text-align: center;">
-    <button type="button" id="btn_modify" class="btn btn-primary btn m-2">SAVE</button>
-    <button type="button" id="btn_previous" class="btn btn-primary btn m-2" onclick="location.href='/'">CANCEL</button>
-    </div>
+
+        <div style="text-align: center;">
+            <button type="button" id="btn_modify" class="btn btn-primary btn m-2">SAVE</button>
+            <button type="button" id="btn_previous" class="btn btn-primary btn m-2" onclick="location.href='/'">CANCEL
+            </button>
+        </div>
     </form>
 </div>
 </body>
@@ -64,41 +75,43 @@
 <script type="text/javascript">
 
     $('#btn_previous').click(function () {
-        window.location.href = "profile.html";
+        window.location.href = "/api/profile";
     });
 
-    $(document).on('click', '#btn_modify', function(e) {
-        if (confirm("정말 수정하시겠습니까 ?") == true) {
+    $.ajax({
+        url: "/api/profile",
+        type: "GET",
+        contentType: "application/json",
+        success: function (response) {
 
-            //데이터를 담아내는 부분
-            const username = $("#username").val();
-            const nickname = $("#nickname").val();
+            let nickname = response['profileResponseDto']['nickname']
+            let password = response['profileResponseDto']['password']
 
-            if (username === '') {
-                alert('내용을 입력해주세요.');
-                return;
-            }
 
-            if (nickname === '') {
-                alert('내용을 입력해주세요.');
-                return;
-            }
-            var formData = new FormData();
-            formData.append("username",username);
-            formData.append("nickname",nickname);
-            $.ajax({
-                enctype: 'multipart/form-data',
-                processData: false,
-                contentType: false,
-                cache: false,
-                url : "api/profile/",
-                data : formData,
-                type : "PUT",
-                success : function(response){
-                    alert('수정 완료');
-                    location.href='/api/profile';
+            $('#btn_modify').click(function () {
+                if (confirm("정말 수정하시겠습니다?") == true) {
+
+
+                    $.ajax({
+                        url: "/api/profile/update",
+                        type: "PUT",
+                        data: JSON.stringify({
+                            "nickname": nickname,
+                            "password":password,
+                        }),
+                        contentType: "application/json",
+                        success: function (json) {
+                            alert("닉네임이 변경되었습니다.")
+
+                        },
+                        error: function () {
+                            alert("수정에 실패하였습니다.")
+                        }
+                    });
                 }
-            })
+            });
         }
+
     });
 </script>
+

@@ -109,7 +109,10 @@ public class ProfileService {
 
     // 프로필 업데이트
     @Transactional
-    public ProfileResponseDto updateProfile(String password, String username, ProfileRequestDto profileRequestDto, User user) {
+    public ProfileResponseDto updateProfile(String password,
+                                            String username,
+                                            ProfileRequestDto profileRequestDto,
+                                            User user) {
 
         //회원 존재 확인
         User author = userRepository.findByUsername(username)
