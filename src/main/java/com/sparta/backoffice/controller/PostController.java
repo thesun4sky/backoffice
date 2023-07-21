@@ -48,5 +48,10 @@ public class PostController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("본인의 게시글만 삭제할 수 있습니다.");
         }
+
+    //게시글 검색
+    @GetMapping("/post")
+    public List<PostsResponseDto> searchPost(@RequestParam String text) {
+        return postService.searchPost(text);
     }
 }

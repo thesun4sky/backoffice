@@ -25,6 +25,7 @@
     <style>
         * {
             font-family: 'IBM Plex Sans KR', sans-serif;
+
         }
 
         html, body {
@@ -34,7 +35,6 @@
             padding: 0;
             overflow: hidden;
             color: #000000;
-            /*cursor: url("https://cdn-icons-png.flaticon.com/128/4713/4713405.png") 16 16,auto;*/
         }
 
         h1 {
@@ -69,6 +69,7 @@
             margin: 0;
             padding: 0;
             width: 100%;
+
             height: 20%;
             display: flex;
             align-items: center;
@@ -128,6 +129,7 @@
             to {
                 transform: translate(0);
             }
+
         }
 
         .line {
@@ -640,6 +642,7 @@
     <span class="menu">
     <span class="hamburger"></span>
   </span>
+
     <ul>
         <li>
             <a href="/api/auth/login-page" id="loginButton">로그인</a>
@@ -647,6 +650,7 @@
             <a href="/api/admin" id="adminButton">관리자</a><br>
         </li>
     </ul>
+
 </label>
 <!---------------------------------------------------------메뉴끝--->
 
@@ -660,6 +664,7 @@
 
 
     <div class="glitch" data-text="Back Office">Back Office</div>
+
 </div>
 
 <div class="line"></div>
@@ -788,5 +793,64 @@
     // 페이지 로드 시 toggleButtons 함수를 호출하여 버튼 초기 상태를 설정
     toggleButtons();
 </script>
+
 </body>
+<script>
+    const host = 'http://' + window.location.host;
+
+    function logout() {
+        window.location.href = "/";
+        deleteJwtCookie();
+    }
+
+    function deleteJwtCookie() {
+        const cookieName = 'Authorization'; // JWT가 저장된 쿠키의 이름
+        // 만료일을 예전 날짜로 설정하여 쿠키를 삭제합니다.
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    }
+
+    // 페이지 로드 시 JWT 토큰 여부를 확인하여 로그인/로그아웃 버튼을 표시하거나 감추는 함수
+    function toggleButtons() {
+        const loginButton = document.getElementById('loginButton'); // 로그인 버튼 요소를 가져옴
+        const logoutButton = document.getElementById('logoutButton'); // 로그아웃 버튼 요소를 가져옴
+        const mypageButton = document.getElementById('mypageButton'); // 마이페이지 버튼 요소를 가져옴
+        const adminButton = document.getElementById('adminButton'); // 관리자페이지 버튼 요소를 가져옴
+
+        const jwtToken = getJwtFromCookie(); // Request 헤더에서 JWT 토큰을 가져옴
+
+        console.log(jwtToken);
+
+        if (jwtToken) {
+            loginButton.style.display = 'none'; // JWT 토큰이 존재하면 로그인 버튼을 감춤
+            logoutButton.style.display = 'inline'; // JWT 토큰이 존재하면 로그아웃 버튼을 표시
+            mypageButton.style.display = 'inline';
+            adminButton.style.display = 'inline';
+        } else {
+            loginButton.style.display = 'inline'; // JWT 토큰이 존재하지 않으면 로그인 버튼을 표시
+            logoutButton.style.display = 'none'; // JWT 토큰이 존재하지 않으면 로그아웃 버튼을 감춤
+            mypageButton.style.display = 'none';
+            adminButton.style.display = 'none';
+        }
+    }
+
+    function getJwtFromCookie() {
+        const cookieName = 'Authorization'; // JWT가 저장된 쿠키의 이름
+        const cookies = document.cookie.split(';');
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+
+            if (cookie.startsWith(`${cookieName}=`)) {
+                const jwtCookie = cookie.substring(cookieName.length + 1);
+                return jwtCookie;
+            }
+        }
+
+        return null; // JWT가 존재하지 않는 경우 null 반환
+    }
+
+    // 페이지 로드 시 toggleButtons 함수를 호출하여 버튼 초기 상태를 설정
+    toggleButtons();
+
+</script>
 </html>
