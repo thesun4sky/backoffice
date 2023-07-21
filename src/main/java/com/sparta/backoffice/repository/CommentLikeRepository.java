@@ -14,4 +14,7 @@ public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> 
     Optional<CommentLike> findByCommentAndUser(Comment comment, User user);
 
     List<CommentLike> findAllByUserAndPost(User user, Post post);
+    List<CommentLike> findAllByComment(Comment comment);
+
+    List<CommentLike> findAllByPost(Post post);
 }

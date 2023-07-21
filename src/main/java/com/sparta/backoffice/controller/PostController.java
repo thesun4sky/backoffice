@@ -30,18 +30,6 @@ public class PostController {
         return postService.createPost(requestDto, user);
     }
 
-    // 게시글 전체 조회
-    @GetMapping("/posts/{method}")
-    public List<PostsResponseDto> getAllPost(@PathVariable String method) {
-        return postService.getAllPost(method);
-    }
-
-    // 게시글 하나 조회
-//    @GetMapping("/post/{id}")
-//    public PostResponseDto getOnePost(@PathVariable Long id) {
-//        return postService.getOnePost(id);
-//    }
-
     // 게시글 업데이트
     @PutMapping("/post/{id}")
     public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -61,10 +49,4 @@ public class PostController {
             return ResponseEntity.badRequest().body("본인의 게시글만 삭제할 수 있습니다.");
         }
     }
-
-    //게시글 검색
-//    @GetMapping("/post")
-//    public List<PostsResponseDto> searchPost(@RequestParam String text) {
-//        return postService.searchPost(text);
-//    }
 }

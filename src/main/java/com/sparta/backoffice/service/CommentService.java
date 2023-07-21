@@ -111,6 +111,9 @@ public class CommentService {
         Post post = postRepository.findById(postid).orElseThrow();
 
         if (comment.getUser().getUsername().equals(user.getUsername()) || user.getRole().equals(ADMIN) ) {
+            // 댓글에 해당되는 애들 전부 삭제
+            commentLikeRepository.deleteAll(commentLikeRepository.findAllByComment(comment));
+
             // 댓글 delete
             commentRepository.delete(comment);
 

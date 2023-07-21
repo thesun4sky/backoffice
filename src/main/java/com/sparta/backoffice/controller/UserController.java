@@ -1,6 +1,7 @@
 package com.sparta.backoffice.controller;
 
 import com.sparta.backoffice.dto.AuthRequestDto;
+import com.sparta.backoffice.dto.PostResponseDto;
 import com.sparta.backoffice.dto.StatusResponseDto;
 import com.sparta.backoffice.filter.JwtAuthorizationFilter;
 import com.sparta.backoffice.jwt.JwtUtil;
@@ -15,9 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -35,14 +38,9 @@ public class UserController {
         return "signup";
     }
 
-    @GetMapping("/")
-    public String mainPage() {
-        return "index";
-    }
-
     @RequestMapping("/logout")
     public ResponseEntity<StatusResponseDto> logout(HttpServletResponse response, Authentication authResult) throws ServletException, IOException, IOException, IOException {
-        log.info("로그아웃 할거야 말리지마셈");
+        log.info("로그아웃 할거야");
         jwtAuthorizationFilter.deleteAuthentication(response, authResult);
         return ResponseEntity.status(201).body(new StatusResponseDto("로그아웃 성공", HttpStatus.CREATED.value()));
     }

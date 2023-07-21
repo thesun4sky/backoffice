@@ -11,8 +11,16 @@
             integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
+
     <title>Post</title>
     <style>
+        * {
+            font-family: 'IBM Plex Sans KR', sans-serif;
+        }
+
         body, html{
             display: flex;
             justify-content: center;
@@ -20,6 +28,28 @@
             width: 100%;
             overflow-x: hidden;
             flex-direction: column;
+            background: rgb(255, 236, 244);
+            background: radial-gradient(circle, rgba(255, 236, 244, 1) 0%, rgba(236, 251, 255, 1) 100%);
+        }
+
+        body::-webkit-scrollbar {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            width: 10px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            border-radius: 3px;
+            background-color: #FFCACA;
+        }
+
+        body::-webkit-scrollbar-button {
+            width: 0;
+            height: 0;
         }
 
         .top, .bottom {
@@ -59,11 +89,12 @@
         }
 
         .content p {
-            border-radius: 15px;
+            border-top: 1px solid #ffffff;
+            border-bottom: 1px solid #ffffff;
             padding: 30px;
             min-height: 280px;
             width: 85%;
-            background-color: #c8c8c8;
+            background-color: transparent;
         }
 
         .image {
@@ -71,6 +102,7 @@
             min-height: 75px;
             min-width: 75px;
             background-size: cover;
+            background-color: transparent;
             background-image: url("https://cdn-icons-png.flaticon.com/128/3024/3024605.png");
         }
 
@@ -85,7 +117,15 @@
             margin-bottom: 10px;
             height: 0.5px;
             width: 90%;
-            background-color: black;
+            background-color: #a9a9a9;
+        }
+
+        .card {
+            border-radius: 15px;
+            padding: 10px;
+            border: 2px solid #fff;
+            height: 130px;
+            margin-bottom: 10px;
         }
 
         .card-body p {
@@ -93,8 +133,9 @@
         }
 
         .cardarea {
-            width: 50%;
+            width: 75%;
         }
+
         .checkbox-label,
         .comment-checkbox-label {
             display: flex;
@@ -131,7 +172,7 @@
 
         .comment {
             margin-bottom: 10px;
-            width: 80%;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -139,32 +180,53 @@
         }
 
         .comment input {
-            width: 50%;
-            color:#000;
-            display:block;
-            border:none;
-            padding:10px 20px;
-            border-radius:25px;
-            background:rgba(255,255,255,0.1);
-            border: #000 solid 0.5px;
+            width: 60%;
+            color: #000;
+            display: block;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: #fff solid 1px;
         }
 
-        button {
+        .comment button {
+            width: 10%;
+        }
+
+        button,
+        .mybuttons button{
+            font-weight: bold;
+            height: 25px;
+            color: darkslategrey;
             border-radius: 5px;
-            background-color: #000;
-            color: #c8c8c8;
+            background: #FFCACA;
+            background: linear-gradient(0deg, #FFCACA 0%, #FFB1B1 100%);
+            border: none;
+        }
+
+        button:before {
+            height: 0%;
+            width: 2px;
+        }
+
+        button:hover {
+            cursor: pointer;
+            box-shadow:  4px 4px 4px 0 rgba(255,255,255,.5),
+            -4px -4px 6px 0 rgba(116, 125, 136, .5),
+            inset -4px -4px 4px 0 rgba(255,255,255,.2),
+            inset 4px 4px 4px 0 rgba(0, 0, 0, .4);
+
         }
 
         .edit-form input{
             width: 90%;
             color:#000;
             display:block;
-            border:none;
             padding:10px 20px;
             margin: 15px;
             border-radius:25px;
-            background:rgba(255,255,255,0.1);
-            border: #000 solid 0.5px;
+            background:transparent;
+            border: #fff solid 2px;
         }
 
         .edit-form div{
@@ -174,14 +236,6 @@
 
         .mybuttons {
             margin-bottom: 15px;
-        }
-
-        .mybuttons button {
-            border-radius: 5px;
-            background-color: #000;
-            color: #c8c8c8;
-            height: 25px;
-            font-size: 14px;
         }
 
         .mybutton{
@@ -235,6 +289,7 @@
 
     <div class="mybuttons">
         <button th:onclick="|location.href='@{/api/post(id=${post.id})}'|">글 수정</button>
+        <button onclick="location.href='/'">메인</button>
         <button onclick="onDelete()">글 삭제</button>
     </div>
 </div>
@@ -258,7 +313,7 @@
                     <div card style="width: 90%">
                         <p id="commentName_" th:text="${comment.nickname}">유저이름</p>
                         <p id="commentContent_" th:text="${comment.commentcontents}">댓글내용</p>
-                        <p id="commentDate_" th:text="|Posted on ${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}|" class="blockquote-footer">date</p>
+                        <p id="commentDate_" th:text="|댓글 작성일: ${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}|" class="blockquote-footer">date</p>
                     </div>
                     <div style="width: 10%; display: flex; justify-content: center; align-items: center; float:right;">
                         <form onsubmit="return false;">
@@ -680,7 +735,7 @@
                 // 요청이 실패한 경우 처리할 로직을 작성합니다.
                 console.log("POST 요청이 실패했습니다.");
                 console.log(xhr.responseText);
-                alert("좋아요를 누를 수 없습니다");
+                alert("작성자는 좋아요를 누를 수 없습니다");
                 window.location.href = `${postid}`;
             }
         });

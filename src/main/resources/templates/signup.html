@@ -129,8 +129,12 @@
                 admin: isAdmin
             }),
             contentType: 'application/json',
-            success: function (response) {
-                alert('회원가입이 성공적으로 완료되었습니다.');
+            success: function (response, status, xhr) {
+                if (xhr.status ===  201) {
+                    alert('회원가입이 성공적으로 완료되었습니다.');
+                } else {
+                    alert('중복된 username입니다.');
+                }
                 window.location.href = host + '/api/auth/login-page';
             },
             error: function (jqXHR, textStatus) {

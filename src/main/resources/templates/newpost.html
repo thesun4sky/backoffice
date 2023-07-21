@@ -7,12 +7,27 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
             integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
+
     <style>
+        * {
+            font-family: 'IBM Plex Sans KR', sans-serif;
+        }
+
         html, body {
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
+            background: rgb(255, 236, 244);
+            background: radial-gradient(circle, rgba(255, 236, 244, 1) 0%, rgba(236, 251, 255, 1) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         h1{
@@ -25,17 +40,20 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 25%;
+            height: 15%;
+            font-size: 25px;
+            font-weight: bold;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            text-align: center;
         }
 
         .line{
             margin: 0;
-            width: 100%;
-            height: 0.3%;
+            width: 90%;
+            height: 0.1%;
             background: #000000;
         }
 
@@ -44,75 +62,33 @@
             width: 100%;
             align-items: center;
             justify-self: center;
-            height: 74.5%;
+            height: 79.9%;
             display: flex;
             flex-direction: column;
         }
-        button,
-        [role=button] {
-            -webkit-appearance: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            outline: none;
-            cursor: pointer;
-            padding :8px 24px;
-            background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+
+        button {
+            height: 30px;
+            width: 70px;
+            color: darkslategrey;
             border-radius: 5px;
-            border: 1px solid #8F9092;
-            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 0 #CECFD1;
-            transition: all 0.2s ease;
-            font-family: "Source Sans Pro", sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: #606060;
-            text-shadow: 0 1px #fff;
-        }
-        button::-moz-focus-inner,
-        [role=button]::-moz-focus-inner {
-            border: 0;
-        }
-        button > *,
-        [role=button] > * {
-            transition: transform 0.2s ease;
-        }
-        button:hover:not([disabled]),
-        [role=button]:hover:not([disabled]) {
-            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
-        }
-        button:hover:not([disabled]) > *,
-        [role=button]:hover:not([disabled]) > * {
-            transform: scale(0.975);
-        }
-        button:focus:not(:active),
-        [role=button]:focus:not(:active) {
-            -webkit-animation: active 0.9s alternate infinite;
-            animation: active 0.9s alternate infinite;
-            outline: none;
-        }
-        button:active:not([disabled]),
-        [role=button]:active:not([disabled]) {
-            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
-        }
-        button:active:not([disabled]) > *,
-        [role=button]:active:not([disabled]) > * {
-            transform: scale(0.95);
-        }
-        button:disabled,
-        [role=button]:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+            background: #FFCACA;
+            background: linear-gradient(0deg, #FFCACA 0%, #FFB1B1 100%);
+            border: none;
         }
 
-        button.icon svg,
-        [role=button].icon svg {
-            margin-top: 3px;
-            width: 30px;
-            height: 30px;
+        button:before {
+            height: 0%;
+            width: 2px;
+        }
+
+        button:hover {
+            cursor: pointer;
+            box-shadow:  4px 4px 4px 0 rgba(255,255,255,.3),
+            -4px -4px 6px 0 rgba(116, 125, 136, .3),
+            inset -4px -4px 4px 0 rgba(255,255,255,.2),
+            inset 4px 4px 4px 0 rgba(0, 0, 0, .3);
+
         }
 
         .logoutbtn{
@@ -217,6 +193,7 @@
             padding: 10px;
             resize: none;
             height: 100%;
+            background: transparent;
         }
 
         textarea:focus {   outline: none; }
@@ -310,7 +287,8 @@
 </head>
 <body>
 <div class="header">
-    <div><h1 class="title1"> 게시글 </h1></div>
+    게시글
+<!--    <h1 class="title1"> 게시글 </h1>-->
 </div>
 <div class = "line"> </div>
 <div class="bottom">

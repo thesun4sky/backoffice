@@ -40,7 +40,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String tokenValue = jwtUtil.getTokenFromRequest(req);
+        String tokenValue = jwtUtil.getTokenFromRequest(request);
 
         if (StringUtils.hasText(tokenValue)) {
             // JWT 토큰 substring
@@ -62,7 +62,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
         }
 
-        filterChain.doFilter(req, res);
+        filterChain.doFilter(request, response);
     }
 
     // 인증 처리
