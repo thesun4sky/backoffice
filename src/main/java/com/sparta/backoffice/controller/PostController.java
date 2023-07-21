@@ -48,10 +48,9 @@ public class PostController {
 
     //게시글 삭제
     @DeleteMapping("/post/{id}")
-    public String deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         postService.deletePost(id, user);
-        return "삭제 성공~";
     }
 
     //게시글 검색

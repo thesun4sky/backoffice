@@ -90,6 +90,7 @@
         return null; // JWT가 존재하지 않는 경우 null 반환
     }
     function toggleAdminSection() {
+
         var checkBox = document.getElementById("admin-check");
         var box = document.getElementById("admin-token");
 
@@ -125,6 +126,7 @@
                 admin: isAdmin
             }),
             contentType: 'application/json',
+
             success: function (response) {
                 alert('회원가입이 성공적으로 완료되었습니다.');
                 window.location.href = host + '/api/auth/login-page';
@@ -135,6 +137,7 @@
                 }else {
                     alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
                 }
+
 
             }
 
@@ -167,4 +170,6 @@
             });
     }
 </script>
+
 </html>
+
