@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/profile")
 public class ProfileViewController {
 
 
     private final ProfileService profileService;
 
     // 프로필 정보 가져오기
-    @GetMapping("/profile")
+    @GetMapping("/view")
     public String viewProfile(@AuthenticationPrincipal UserDetailsImpl userDetails,
                               Model model) {
 
@@ -37,7 +37,7 @@ public class ProfileViewController {
     }
 
     //프로필 변경 페이지
-    @GetMapping("/edit_profile")
+    @GetMapping("/edit")
     public String getProfileEditPage(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                      Model model) {
 
@@ -53,7 +53,7 @@ public class ProfileViewController {
 
 
     //비밀번호 수정 페이지
-    @GetMapping("/edit_password")
+    @GetMapping("/password")
     public String getPasswordEditPage() {
         return "editPassword";
     }
